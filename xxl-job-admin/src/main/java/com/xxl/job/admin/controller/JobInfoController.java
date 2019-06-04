@@ -1,5 +1,6 @@
 package com.xxl.job.admin.controller;
 
+import com.xxl.job.admin.controller.annotation.PermessionLimit;
 import com.xxl.job.admin.core.model.XxlJobGroup;
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.route.ExecutorRouteStrategyEnum;
@@ -12,6 +13,7 @@ import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.glue.GlueTypeEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,6 +53,7 @@ public class JobInfoController {
 	
 	@RequestMapping("/pageList")
 	@ResponseBody
+	@PermessionLimit(limit = false)
 	public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,  
 			@RequestParam(required = false, defaultValue = "10") int length,
 			int jobGroup, String jobDesc, String executorHandler, String filterTime) {
@@ -60,37 +63,42 @@ public class JobInfoController {
 	
 	@RequestMapping("/add")
 	@ResponseBody
-	public ReturnT<String> add(XxlJobInfo jobInfo) {
+	@PermessionLimit(limit = false)
+	public ReturnT<String> add(@RequestBody  XxlJobInfo jobInfo) {
 		return xxlJobService.add(jobInfo);
 	}
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public ReturnT<String> update(XxlJobInfo jobInfo) {
+	@PermessionLimit(limit = false)
+	public ReturnT<String> update(@RequestBody  XxlJobInfo jobInfo) {
 		return xxlJobService.update(jobInfo);
 	}
 	
 	@RequestMapping("/remove")
 	@ResponseBody
+	@PermessionLimit(limit = false)
 	public ReturnT<String> remove(int id) {
 		return xxlJobService.remove(id);
 	}
 	
 	@RequestMapping("/stop")
 	@ResponseBody
+	@PermessionLimit(limit = false)
 	public ReturnT<String> pause(int id) {
 		return xxlJobService.stop(id);
 	}
 	
 	@RequestMapping("/start")
 	@ResponseBody
+	@PermessionLimit(limit = false)
 	public ReturnT<String> start(int id) {
 		return xxlJobService.start(id);
 	}
 	
 	@RequestMapping("/trigger")
 	@ResponseBody
-	//@PermessionLimit(limit = false)
+	@PermessionLimit(limit = false)
 	public ReturnT<String> triggerJob(int id, String executorParam) {
 		// force cover job param
 		if (executorParam == null) {
